@@ -3,6 +3,12 @@ import collections
 import sys
 import os
 
+_base_path = os.getcwd()
+parentdir_of_file = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+sys.path.append(parentdir_of_file)
+
+from grammar.types import *
+
 # process_list
 def process_list():
     for proc in psutil.process_iter():
