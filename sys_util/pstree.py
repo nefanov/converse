@@ -14,7 +14,7 @@ def process_list():
             print(pinfo)
     return pinfo
 
-
+# print tree recursively
 def print_tree(node, tree, indent='  '):
     try:
         name = psutil.Process(node).name()
