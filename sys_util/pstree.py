@@ -19,9 +19,10 @@ def print_tree(node, tree, indent='  '):
     try:
         name = psutil.Process(node).name()
         pgid = os.getpgid(psutil.Process(node).pid)
+        sid = os.getsid(psutil.Process(node).pid)
     except psutil.Error:
         name = "?"
-    print(node, name, pgid)
+    print(name, node, pgid, sid)
     if node not in tree:
         return
     children = tree[node][:-1]
