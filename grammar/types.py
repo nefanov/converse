@@ -3,7 +3,7 @@ _base_path = os.getcwd()
 parentdir_of_file = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(parentdir_of_file)
 
-def find(node, pid=1, s=None):
+def find_node(node, pid=1, s=None):
     if not s:  # pid_lookup
         if node.proc.p == pid:
             return node
@@ -51,7 +51,7 @@ class BNode:
         self.footnode = node
 
 def test():
-    print(find(Node(1,1,1),pid=2))
+    print(find_node(Node(1,1,1),pid=2))
 
 
 #test:
