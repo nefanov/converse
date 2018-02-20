@@ -20,6 +20,8 @@ class ProcessEntry(object):
         self.g = g
         self.s = s
 
+### It seems good to set any tree as betatree        
+
 #node: process + some constraints + children == tree
 #so node is a tree itself
 class Node(object):
