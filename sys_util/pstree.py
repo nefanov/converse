@@ -22,13 +22,14 @@ def process_list():
 
 # print tree recursively
 def print_tree(node, tree, indent='  '):
+    pgid=sid=1
     try:
         name = psutil.Process(node).name()
         pgid = os.getpgid(psutil.Process(node).pid)
         sid = os.getsid(psutil.Process(node).pid)
     except psutil.Error:
         name = "?"
-    print(name, node, pgid, sid)
+    print(name, node, sid, pgid)
     if node not in tree:
         return
     children = tree[node][:-1]
