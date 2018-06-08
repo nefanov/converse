@@ -34,16 +34,21 @@ def check_cf(child, parent):
         headers=['setsid','setpgid','fork']
         hierarch_list = [setsid_cont, setpgid_cont, fork_cont]
 
-
         for idx, rule in enumerate[hierarch_list]:
                 corr = True
                 for c in rule:
-                        if c.key == 'eq':
-                                if all( getattr(select_from(x.split('.')[0]),(x.split('.')[1])) == getattr(select_from(c.values[0].split('.')[0]),(c.values[0].split('.')[1]))  for x in c.values):
+                        if all( getattr(select_from(x.split('.')[0]),(x.split('.')[1])) == getattr(select_from(c.values[0].split('.')[0]),(c.values[0].split('.')[1]))  for x in c.values):
+                                if c.key == 'eq':
                                         corr = True
-                                else:
+                                elif c.key =='neq':
                                         corr = False
                                         break
-                        if
+
+                        else:
+                                if c.key == 'neq':
+                                        corr = True
+                                elif c.key =='eq':
+                                        corr = False
+                                        break
                 if corr == True:
                         return apply_rule[headers[idx]](child)
