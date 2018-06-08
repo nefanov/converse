@@ -1,3 +1,4 @@
+from proc import *
 
 def fork(proc_entry):
         proc_entry.call = 'fork'
@@ -16,8 +17,8 @@ apply_rule = {
 }
 
 
-
 def check_cf(child, parent):
+        
         def compose_rules_cf():
                 setsid_cont = []
                 setpgid_cont = []
@@ -48,7 +49,6 @@ def check_cf(child, parent):
                                 elif c.key =='neq':
                                         corr = False
                                         break
-
                         else:
                                 if c.key == 'neq':
                                         corr = True
