@@ -2,6 +2,7 @@ import psutil
 import collections
 import sys
 import os
+import glob
 
 _base_path = os.getcwd()
 parentdir_of_file = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
@@ -23,13 +24,19 @@ def process_list():
 # print tree recursively
 def print_tree(node, tree, indent='  '):
     pgid=sid=1
+    fds=[]
     try:
         name = psutil.Process(node).name()
         pgid = os.getpgid(psutil.Process(node).pid)
         sid = os.getsid(psutil.Process(node).pid)
+        fds = [] # list of results from file descriptors
+       	fd_procfs = glob.glob('/proc/'+ str(psutil.Process(node).pid) + '/fd/*')
+        for line in fd_procfs:
+            fds.append({os.path.realpath(line):'n/a'})
+		
     except psutil.Error:
         name = "?"
-    print(name, node, sid, pgid)
+    print(name, node, sid, pgid,'\n>\t',fds)
     if node not in tree:
         return
     children = tree[node][:-1]
