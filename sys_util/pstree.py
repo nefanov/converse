@@ -1,4 +1,7 @@
-# see into splitting with: https://github.com/xolox/python-proc/blob/master/proc/tree.py
+# self-made procfs python API for process-tree getting
+# supports pid, setsid, setpgid, hierarchy, file descriptors/info
+
+# see into splitting different procfs API
 import psutil
 import collections
 import sys
