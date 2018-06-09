@@ -35,22 +35,17 @@ def print_tree(node, tree, indent='  '):
         for line in fd_procfs:
             try:
                 with open('/proc/'+ str(psutil.Process(node).pid) + '/fdinfo/'+ line.split('/')[-1], 'rt+') as finfo:
-                    lines = finfo.readlines()
-                    print("Before the stripping")
-                    print(lines)
-# you may also want to remove whitespace characters like `\n` at the end of each line
-                    lines = [x.strip() for x in lines]
-                    print("After the stripping")
-                    print(lines)
-                    for line in lines:
-                        content = line.replace('\t',' ').replace(':',' ').split()
-                        print("content line:", content)
-                        if line.find('flags'):
-                            print("cached content:", content[-1])
-                            fds.append({os.path.realpath(line):content[-1]})
-                        else:
-                            fds.append({os.path.realpath(line):'n/a'})
-            except:
+                    liner = False
+                    for l in finfo:
+                        if l.split(':')[0] == 'flags':
+                            val=l.replace(':',' ').replace('\t',' ').split(' ')[-1].replace('\n','')
+                            fds.append({os.path.realpath(line):val})
+                            liner = True
+                    if liner ==False:
+                        fds.append({os.path.realpath(line):'n/a'})
+
+            except Exception as e:
+                print(e)
                 fds.append({os.path.realpath(line):'n/a'})
 		
     except psutil.Error:
