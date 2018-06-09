@@ -1,3 +1,4 @@
+# see into splitting with: https://github.com/xolox/python-proc/blob/master/proc/tree.py
 import psutil
 import collections
 import sys
@@ -32,11 +33,31 @@ def print_tree(node, tree, indent='  '):
         fds = [] # list of results from file descriptors
        	fd_procfs = glob.glob('/proc/'+ str(psutil.Process(node).pid) + '/fd/*')
         for line in fd_procfs:
-            fds.append({os.path.realpath(line):'n/a'})
+            try:
+                with open('/proc/'+ str(psutil.Process(node).pid) + '/fdinfo/'+ line.split('/')[-1], 'rt+') as finfo:
+                    lines = finfo.readlines()
+                    print("Before the stripping")
+                    print(lines)
+# you may also want to remove whitespace characters like `\n` at the end of each line
+                    lines = [x.strip() for x in lines]
+                    print("After the stripping")
+                    print(lines)
+                    for line in lines:
+                        content = line.replace('\t',' ').replace(':',' ').split()
+                        print("content line:", content)
+                        if line.find('flags'):
+                            print("cached content:", content[-1])
+                            fds.append({os.path.realpath(line):content[-1]})
+                        else:
+                            fds.append({os.path.realpath(line):'n/a'})
+            except:
+                fds.append({os.path.realpath(line):'n/a'})
 		
     except psutil.Error:
         name = "?"
-    print(name, node, sid, pgid,'\n>\t',fds)
+    print(name, node, sid, pgid)
+    for it in fds:
+        print(it)
     if node not in tree:
         return
     children = tree[node][:-1]
