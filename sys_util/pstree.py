@@ -26,7 +26,7 @@ def process_list():
     return pinfo
 
 # print tree recursively
-def print_tree(node, tree, indent='  ', output_dir='./'):
+def print_tree(node, tree, indent='  ', output_dir='./current_dump/'):
     pgid=sid=pid=1
     fds=[]
     try:
