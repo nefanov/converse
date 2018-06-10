@@ -26,12 +26,13 @@ def process_list():
     return pinfo
 
 # print tree recursively
-def print_tree(node, tree, indent='  '):
-    pgid=sid=1
+def print_tree(node, tree, indent='  ', output_dir='./'):
+    pgid=sid=pid=1
     fds=[]
     try:
         name = psutil.Process(node).name()
         pgid = os.getpgid(psutil.Process(node).pid)
+        pid = psutil.Process(node).pid
         sid = os.getsid(psutil.Process(node).pid)
         fds = [] # list of results from file descriptors
        	fd_procfs = glob.glob('/proc/'+ str(psutil.Process(node).pid) + '/fd/*')
@@ -54,8 +55,28 @@ def print_tree(node, tree, indent='  '):
     except psutil.Error:
         name = "?"
     print(name, node, sid, pgid)
+    if not os.path.exists(output_dir+str(pid)):
+        os.makedirs(output_dir+str(pid))
+    files = open(output_dir+str(pid)+'/files.pstree','w+')
+    sockets = open(output_dir+str(pid)+'/sockets.pstree','w+')
+    pipes = open(output_dir+str(pid)+'/pipes.pstree','w+')
+    fifos = open(output_dir+str(pid)+'/fifos.pstree','w+')
+
     for it in fds:
-        print(it)
+        for k,v in it.items():
+            if 'socket' in k.replace(':',' ').replace('[',' ').replace(']',' ').split(' '):
+                sockets.write('{}_-_{}\n'.format(k,v))
+            elif 'pipe' in k.replace(':',' ').replace('[',' ').replace(']',' ').split(' '):
+                pipes.write('{}_-_{}\n'.format(k,v))
+            elif 'fifo' in k.replace(':',' ').replace('[',' ').replace(']',' ').split(' '):
+                fifos.write('{}_-_{}\n'.format(k,v)) 
+            else:
+                files.write('{}_-_{}\n'.format(k,v))
+    files.close()
+    sockets.close()
+    pipes.close()
+    fifos.close()
+
     if node not in tree:
         return
     children = tree[node][:-1]
