@@ -18,6 +18,8 @@ apply_rule = {
         'setpgid':setpgid
 }
 
+def check_context():
+        pass
 
 def check_cf(child, parent, node_arr):
         
