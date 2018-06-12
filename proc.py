@@ -3,11 +3,12 @@ import pprint
 
 # This class describes single node in the IR tree
 class proc:
-	def __init__(self, p,g,s,pp):
+	def __init__(self, p,g,s,pp, call='fork'):
 		self.p = p
 		self.g = g
 		self.s = s
-		self.pp = p
+		self.pp = pp
+		self.call = call
 
 	def getpid(self):
 		return self.p
@@ -20,6 +21,9 @@ class proc:
 
 	def getppid(self):
 		return self.pp
+	
+	def getcall(self):
+		return self.call
 
 	def setpid(self, p=1):
 		self.p = p
@@ -33,5 +37,6 @@ class proc:
 	def setppid(self, pp=1):
 		self.pp = pp
 
-
+	def setcall(self, call='fork'):
+		self.call = call
 
