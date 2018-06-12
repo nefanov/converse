@@ -12,16 +12,6 @@
 # имена контекстных частей вызовов <name>_context(...)
 from proc import *
 
-def fork(proc_entry):
-        proc_entry.call = 'fork'
-        return proc_entry
-
-def setsid()
-        pass
-
-def setpgid()
-        pass
-
 apply_rule = {
         'fork':fork,
         'setsid':setsid,
@@ -70,8 +60,8 @@ def check_cf(child, parent, node_arr):
                 if corr == True:
                         return apply_rule[headers[idx]](child, parent, node_arr)
                
-def fork(child, parent=None):
-        child.call = 'fork'
+def fork(child, parent=None, node_arr=[child]):
+        node_arr[-1].call = 'fork'
         return node_arr
 
 def setsid(child, parent, node_arr):
