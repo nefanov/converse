@@ -67,7 +67,7 @@ def setsid(child, parent, node_arr):
         node_arr[-1].call='setsid'
         return node_arr
 
-def setsid(child, parent, node_arr):
+def setpgid(child, parent, node_arr):
         node_arr.insert(0, proc(child.p, parent.g, child.s, child.pp)) # forked node by design
         node_arr[-1].call='setpgid'
         return node_arr
