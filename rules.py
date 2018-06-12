@@ -17,7 +17,7 @@ apply_rule = {
 }
 
 
-def check_cf(child, parent):
+def check_cf(child, parent, node_arr):
         
         def compose_rules_cf():
                 setsid_cont = []
@@ -56,4 +56,18 @@ def check_cf(child, parent):
                                         corr = False
                                         break
                 if corr == True:
-                        return apply_rule[headers[idx]](child)
+                        return apply_rule[headers[idx]](child, parent, node_arr)
+               
+def fork(child, parent=None):
+        child.call = 'fork'
+        return node_arr
+
+def setsid(child, parent, node_arr):
+        node_arr.insert(0, proc(child.p, parent.g, parent.s, child.pp)) # forked node by design
+        node_arr[-1].call='setsid'
+        return node_arr
+
+def setsid(child, parent, node_arr):
+        node_arr.insert(0, proc(child.p, parent.g, child.s, child.pp)) # forked node by design
+        node_arr[-1].call='setpgid'
+        return node_arr
