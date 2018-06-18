@@ -62,15 +62,15 @@ def test():
 	s.push(2)
 	print(s.pop())
 
-# test frame
+	
+def test_frame():
+	s=stack()
+	s.push(1)
+	s.frame()
+	s.frame_update_metadata('azaza')
+	print(s[0],s[1])
 
-s=stack()
-s.push(1)
-s.frame()
-s.frame_update_metadata('azaza')
-print(s[0],s[1])
-
-print(s.frame_get_metadata()) # expect 2
-s.push(5)
-print(s.pop())
-print(s.pop())
+	print(s.frame_get_metadata()) # expect 2
+	s.push(5)
+	print(s.pop())
+	print(s.pop())
