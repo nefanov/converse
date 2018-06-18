@@ -4,7 +4,7 @@ import pprint
 from proc import *
 ## Indexation disclaimer:
 # according to the previous research, identifiers represents symmetric group, thus, reenumeration is submitted:
-# On the first pass stage, DFS-based numbers will be generated and saved into the map number <-> real_identifier (OrderedList). Thus, normalization of trees will be made: 
+# On the first pass stage, DFS-based numbers will be generated and saved into the map number <-> real_identifier (OrderedList(LogSearch)). Thus, normalization of trees will be made: 
 #1
 #|\
 #2 5
