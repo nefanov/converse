@@ -26,9 +26,10 @@ class parser:
 		self.arglist = arglist
 
 
-	def first_stage(self, raw_line, stack=stack(), dbg=False):
+	def first_stage(self, raw_line, stack=stack(), start='0', dbg=False):
 		raw_line = normalize_str(raw_line)
 		line = raw_line.split(' ')
+		current = start
 		pos = 0
 		stack.push(['<s>']) # root metadata
 		stack.print_stack()
@@ -47,8 +48,9 @@ class parser:
 						print(stack[stack.sp-1])
 					pos += len(self.arglist)
 					metadata = stack.frame_get_metadata()
-					metadata.append({stack.sp-1:cand[0]})
+					metadata.append([{stack.bp-1:None},{stack.sp-1:cand[0]}])
 					stack.frame_update_metadata(metadata)
+					current = cand[0] # ? redundancy
 				else:
 					print("Parsing.error")
 					if dbg==True:
